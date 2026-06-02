@@ -1,19 +1,17 @@
-use std::io::{Stdout, Write};
-
 use ansi_rgb::{Background, Foreground};
 use crossterm::{cursor::MoveTo, queue};
 use lazy_static::lazy_static;
 use num_traits::ToPrimitive;
-
 use rgb::{RGB8, Rgb};
+use std::io::{Stdout, Write};
 use terminal_colorsaurus::{QueryOptions, background_color};
+
 #[derive(Debug)]
 pub enum Errors {
   EmptyData,
   UncastableValue,
 }
 struct Bar {
-  // remove pubs
   pos: (u16, u16),
   size: f32,
   color: RGB8,
