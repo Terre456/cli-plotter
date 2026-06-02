@@ -12,11 +12,11 @@ pub enum Errors {
   EmptyData,
   UncastableValue,
 }
-pub struct Bar {
+struct Bar {
   // remove pubs
-  pub pos: (u16, u16),
-  pub size: f32,
-  pub color: RGB8,
+  pos: (u16, u16),
+  size: f32,
+  color: RGB8,
 }
 pub struct Plot {
   data: Vec<f32>,
@@ -89,7 +89,7 @@ lazy_static! {
   ];
 }
 impl Bar {
-  pub fn show(self, stdout: &mut Stdout) {
+  fn show(self, stdout: &mut Stdout) {
     let sign = self.size.signum() as i32;
     let bar_size = (self.size * 8.0).round() as i32;
     let block_count = bar_size / 8;
