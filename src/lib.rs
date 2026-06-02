@@ -29,8 +29,8 @@
  sample_test();
  ```
  ### output
-![Output Image](/doc-images/output-image.png)
-!*/
+![Output Image](https://raw.githubusercontent.com/Terre456/cli-plotter/refs/heads/main/doc-images/output-image.png)
+*/
 
 use ansi_rgb::{Background, Foreground};
 use crossterm::{cursor::MoveTo, queue};
