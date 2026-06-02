@@ -107,7 +107,11 @@ impl Bar {
       .to_string()
       .repeat(2)
       .fg(self.color);
-    let block = char::from_u32(0x2588).unwrap().to_string().repeat(2);
+    let block = char::from_u32(0x2588)
+      .unwrap()
+      .to_string()
+      .repeat(2)
+      .fg(self.color);
     for i in 0..block_count {
       queue!(
         stdout,
@@ -138,11 +142,16 @@ impl Bar {
       .repeat(2)
       .fg(bg_color)
       .bg(self.color); // inverting background and foreground colors to invert the characters (ie negative)
-    let block = char::from_u32(0x2588).unwrap().to_string().repeat(2);
+    let block = char::from_u32(0x2588)
+      .unwrap()
+      .to_string()
+      .repeat(2)
+      .fg(self.color);
 
     for i in 1..-block_count + 1 {
       queue!(stdout, MoveTo(self.pos.0, self.pos.1 + i as u16)).unwrap();
-      print!("{block}"); }
+      print!("{block}");
+    }
     if spec_count != 0 {
       queue!(
         stdout,
@@ -155,7 +164,7 @@ impl Bar {
 }
 
 impl Plot {
-  const DEFAULT_BG_COLOR : (u8, u8, u8) = (24, 24, 24);
+  const DEFAULT_BG_COLOR: (u8, u8, u8) = (24, 24, 24);
   pub fn new<T: ToPrimitive>(data: Vec<T>, size: u16) -> Plot {
     let default_color = Colors::Rgb(RGB8::new(200, 200, 200));
     let data: Vec<f32> = data.into_iter().map(|v| v.to_f32().unwrap()).collect();
@@ -216,7 +225,7 @@ impl Plot {
       })
       .collect()
   }
-  fn get_color_vec(&self) -> Vec<Rgb<u8>>{
+  fn get_color_vec(&self) -> Vec<Rgb<u8>> {
     match &self.color {
       Colors::Rgb(rgb) => vec![rgb.clone()],
       Colors::Rainbow => RAINBOW_COLORS.to_vec(),

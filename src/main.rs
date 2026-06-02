@@ -2,19 +2,20 @@ use std::{ io::stdout};
 
 use crossterm::{cursor::MoveTo, execute, terminal::Clear};
 
-use cli_plotter::{Bar, Plot};
+use cli_plotter::{Bar, Colors::Rainbow, Plot};
 use rand::{RngExt, rng};
 use rgb::RGB8;
 use terminal_colorsaurus::{Color, QueryOptions, background_color};
 
 fn main() {
-  test1();
+  test2();
 }
 #[allow(unused)]
 fn test2() {
   let values = random_sample(0.0, 6.0, 30);
   let mut stdout = stdout();
-  let plot = Plot::new(values, 7);
+  let mut plot = Plot::new(values, 7);
+  plot.set_color(Rainbow);
   execute!(stdout, Clear(crossterm::terminal::ClearType::All)).unwrap();
   plot.show((3,9), &mut stdout);
   execute!(stdout, MoveTo(0, 0)).unwrap();
