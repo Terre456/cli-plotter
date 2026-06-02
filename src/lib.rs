@@ -7,21 +7,20 @@ use std::io::{Stdout, Write};
 use terminal_colorsaurus::{QueryOptions, background_color};
 
 #[derive(Debug)]
-pub enum Errors {
-  EmptyData,
-  UncastableValue,
-}
+/// A struct to display a single bar of a chart
 struct Bar {
   pos: (u16, u16),
   size: f32,
   color: RGB8,
 }
+/// A struct to plot data in a chart with bars
 pub struct Plot {
   data: Vec<f32>,
   size: u16,
   fill_ratio: f32,
   color: Colors,
 }
+/// different colors to be passed for the output color of the plot
 pub enum Colors {
   Rgb(RGB8),
   Rainbow,
@@ -163,6 +162,7 @@ impl Bar {
 
 impl Plot {
   const DEFAULT_BG_COLOR: (u8, u8, u8) = (24, 24, 24);
+  /// creates a new plot from an array of numbers, the ̀``size`` determines the max height of the bars
   pub fn new<T: ToPrimitive>(data: Vec<T>, size: u16) -> Plot {
     let default_color = Colors::Rgb(RGB8::new(200, 200, 200));
     let data: Vec<f32> = data.into_iter().map(|v| v.to_f32().unwrap()).collect();
@@ -173,16 +173,19 @@ impl Plot {
       color: default_color,
     }
   }
+  /// used to create more spacing between the maximum bar size and the top of the chart
   pub fn set_fill_ratio(&mut self, v: f32) {
     self.fill_ratio = f32::max(1.0, v);
   }
+  /// sets the color of the output chart
   pub fn set_color(&mut self, color: Colors) {
     self.color = color;
   }
-
+  /// sets the max height of the chart's bars
   pub fn set_size(&mut self, size: u16) {
     self.size = size;
   }
+  /// draws the plot to the terminal. `̀`pos`` determines the origin (middle-left) of the chart
   pub fn show(self, pos: (u16, u16), stdout: &mut Stdout) {
     let max = self.get_max();
     let bar_array = self.get_bar_array(pos, max);
