@@ -1,3 +1,37 @@
+
+/*! 
+ # cli-plotter
+ A library to draw simple charts onto stdout from an array of numbers
+ # Example
+ ```
+ use cli_plotter::{Colors, Plot};
+ use crossterm::{execute, terminal::Clear};
+ use rand::{RngExt, rng};
+ use std::io::stdout;
+
+ fn sample_test() {
+  let values = random_sample(-3.0, 6.0, 10);
+   let mut stdout = stdout();
+   let mut plot = Plot::new(values, 7);
+   plot.set_color(Colors::Rainbow);
+   execute!(stdout, Clear(crossterm::terminal::ClearType::All)).unwrap();
+   plot.show((3, 9), &mut stdout);
+   execute!(stdout, MoveTo(0, 0)).unwrap();
+ }
+ fn random_sample(start: f32, stop: f32, count: u32) -> Vec<f32> {
+   let mut v = vec![];
+   let mut rng = rng();
+   for _ in 0..count {
+     v.push(rng.random_range(start..stop));
+   }
+   v
+ } 
+ sample_test();
+ ```
+ ### output
+![Output Image](/doc-images/output-image.png)
+!*/
+
 use ansi_rgb::{Background, Foreground};
 use crossterm::{cursor::MoveTo, queue};
 use lazy_static::lazy_static;
@@ -162,7 +196,7 @@ impl Bar {
 
 impl Plot {
   const DEFAULT_BG_COLOR: (u8, u8, u8) = (24, 24, 24);
-  /// creates a new plot from an array of numbers, the ̀``size`` determines the max height of the bars
+  /// creates a new plot from an array of numbers, the ``size`` determines the max height of the bars
   pub fn new<T: ToPrimitive>(data: Vec<T>, size: u16) -> Plot {
     let default_color = Colors::Rgb(RGB8::new(200, 200, 200));
     let data: Vec<f32> = data.into_iter().map(|v| v.to_f32().unwrap()).collect();
@@ -185,7 +219,7 @@ impl Plot {
   pub fn set_size(&mut self, size: u16) {
     self.size = size;
   }
-  /// draws the plot to the terminal. `̀`pos`` determines the origin (middle-left) of the chart
+  /// draws the plot to the terminal. ``pos`` determines the origin (middle-left) of the chart
   pub fn show(self, pos: (u16, u16), stdout: &mut Stdout) {
     let max = self.get_max();
     let bar_array = self.get_bar_array(pos, max);
